@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Looply — a beginner-friendly social media prototype demonstrating computational thinking.">
+  <title>Looply — Social, simply</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Desktop navigation -->
+    <aside class="sidebar" aria-label="Primary navigation">
+      <button class="brand" data-view="home" aria-label="Looply home">
+        <span class="brand-mark">L</span><span>looply</span>
+      </button>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="home"><span>⌂</span><b>Home</b></button>
+        <button class="nav-item" data-view="search"><span>⌕</span><b>Search</b></button>
+        <button class="nav-item" data-view="explore"><span>✦</span><b>Explore</b></button>
+        <button class="nav-item" data-view="notifications"><span>♡</span><b>Notifications</b><i id="notificationDot"></i></button>
+        <button class="nav-item" data-view="profile"><span>◎</span><b>Profile</b></button>
+      </nav>
+      <button class="primary-button create-trigger"><span>＋</span> Create post</button>
+      <div class="ct-card">
+        <span>Class project</span>
+        <strong>Computational thinking</strong>
+        <small>Break it down. Spot patterns. Keep it simple. Build the steps.</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Shared mobile/page header -->
+      <header class="topbar">
+        <button id="backButton" class="icon-button back-button hidden" aria-label="Go back">←</button>
+        <button class="brand mobile-brand" data-view="home"><span class="brand-mark">L</span><span>looply</span></button>
+        <h1 id="pageTitle">Home</h1>
+        <div class="topbar-actions">
+          <label class="language-control" title="Translation language">
+            <span>文</span>
+            <select id="languageSelect" aria-label="Translation language">
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="zh">中文</option>
+              <option value="ja">日本語</option>
+            </select>
+          </label>
+          <button class="icon-button create-trigger" aria-label="Create post">＋</button>
+        </div>
+      </header>
+
+      <!-- Home feed -->
+      <section id="homeView" class="view active" aria-labelledby="homeHeading">
+        <h2 id="homeHeading" class="sr-only">Home feed</h2>
+        <div class="home-layout">
+          <div class="feed-column">
+            <section class="stories-card" aria-label="Stories">
+              <div class="section-heading"><h2>Stories</h2><span>Today</span></div>
+              <div id="storiesBar" class="stories-bar"></div>
+            </section>
+            <div id="feed" class="feed" aria-live="polite"></div>
+          </div>
+          <aside class="right-rail">
+            <div id="miniProfile" class="mini-profile card"></div>
+            <div class="card thinking-card">
+              <div class="eyebrow">HOW THIS APP THINKS</div>
+              <ul>
+                <li><b>Decompose</b><span>Profile, feed, stories, explore</span></li>
+                <li><b>Recognize</b><span>Repeated cards and actions</span></li>
+                <li><b>Abstract</b><span>Only the essential features</span></li>
+                <li><b>Algorithm</b><span>Clear, ordered user flows</span></li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Search -->
+      <section id="searchView" class="view page-width" aria-labelledby="searchHeading">
+        <div class="page-intro"><div><span class="eyebrow">DISCOVER PEOPLE & POSTS</span><h2 id="searchHeading">Search</h2></div></div>
+        <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search people, captions, or topics…" autocomplete="off"></label>
+        <div id="searchResults" class="search-results"></div>
+      </section>
+
+      <!-- Explore -->
+      <section id="exploreView" class="view page-width" aria-labelledby="exploreHeading">
+        <div class="page-intro"><div><span class="eyebrow">TRENDING AROUND LOOPLY</span><h2 id="exploreHeading">Explore</h2></div><button class="text-button" data-view="search">Search instead →</button></div>
+        <p class="featured-note"><span>✦</span> The first row is featured for high engagement</p>
+        <div id="exploreGrid" class="explore-grid"></div>
+      </section>
+
+      <!-- Notifications -->
+      <section id="notificationsView" class="view page-width narrow" aria-labelledby="notificationsHeading">
+        <div class="page-intro"><div><span class="eyebrow">WHAT’S NEW</span><h2 id="notificationsHeading">Notifications</h2></div><button id="markReadButton" class="text-button">Mark all read</button></div>
+        <div id="notificationsList" class="notification-list"></div>
+      </section>
+
+      <!-- Profile and settings -->
+      <section id="profileView" class="view page-width" aria-labelledby="profileHeading">
+        <div id="profileHeader" class="profile-header"></div>
+        <div class="profile-body">
+          <div>
+            <div class="section-heading"><h2 id="profileHeading">My posts</h2><span id="postCountLabel"></span></div>
+            <div id="profileGrid" class="profile-grid"></div>
+          </div>
+          <aside class="settings-card card">
+            <div class="eyebrow">PROFILE SETTINGS</div>
+            <div class="setting-row">
+              <div><b>Profile visibility</b><small id="visibilityHelp"></small></div>
+              <div class="segmented" role="group" aria-label="Profile visibility">
+                <button data-visibility="public">Public</button><button data-visibility="private">Private</button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div><b>Dating Mode</b><small>Show that you’re open to meeting people.</small></div>
+              <label class="switch"><input id="datingToggle" type="checkbox"><span></span><em>Dating Mode</em></label>
+            </div>
+            <div id="visitDemo" class="visit-demo"></div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mobile navigation -->
+    <nav class="mobile-nav" aria-label="Mobile navigation">
+      <button class="nav-item active" data-view="home"><span>⌂</span><b>Home</b></button>
+      <button class="nav-item" data-view="search"><span>⌕</span><b>Search</b></button>
+      <button class="nav-item" data-view="explore"><span>✦</span><b>Explore</b></button>
+      <button class="nav-item" data-view="notifications"><span>♡</span><b>Alerts</b><i></i></button>
+      <button class="nav-item" data-view="profile"><span>◎</span><b>Profile</b></button>
+    </nav>
+  </div>
+
+  <!-- Reusable modal shell -->
+  <div id="modalBackdrop" class="modal-backdrop hidden" role="presentation">
+    <section id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"></section>
+  </div>
+
+  <!-- Story viewer -->
+  <div id="storyViewer" class="story-viewer hidden" role="dialog" aria-modal="true" aria-label="Story viewer">
+    <div id="storyProgress" class="story-progress"></div>
+    <button id="closeStory" class="story-close" aria-label="Close story">×</button>
+    <div id="storyContent" class="story-content"></div>
+    <button id="prevStory" class="story-arrow previous" aria-label="Previous story">‹</button>
+    <button id="nextStory" class="story-arrow next" aria-label="Next story">›</button>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
